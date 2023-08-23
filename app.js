@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Button, FlatList, StyleSheet} from 'react-native';
+import {View, Text, Button, FlatList, StyleSheet, Image} from 'react-native';
 import axios from 'axios';
 
 const App = () => {
@@ -39,14 +39,20 @@ const App = () => {
 
   const renderItem = ({item}) => (
     <View style={styles.productItem}>
-      <Text style={{color: 'red'}}>{item.name}</Text>
-      <Text>Price: {item.price}</Text>
-      <Text>category: {item.category}</Text>
-      <Text>Rating: {item.rating}</Text>
-      <Text>Discount: {item.discountPercentage}%</Text>
-      {item.stock < 50 && (
-        <Text style={styles.stockMessage}>Hurry! Only a few items left</Text>
-      )}
+      <Image
+        style={{height: 100, width: 100, borderRadius: 50}}
+        source={{uri: item?.thumbnail}}
+      />
+      <View style={{marginLeft: 10}}>
+        <Text style={{color: 'red'}}>{item.name}</Text>
+        <Text>Price: {item.price}</Text>
+        <Text>category: {item.category}</Text>
+        <Text>Rating: {item.rating}</Text>
+        <Text>Discount: {item.discountPercentage}%</Text>
+        {item.stock < 50 && (
+          <Text style={styles.stockMessage}>Hurry! Only a few items left</Text>
+        )}
+      </View>
     </View>
   );
 
@@ -57,7 +63,6 @@ const App = () => {
         <Button title="Discount" onPress={() => sortProducts('discount')} />
         <Button title="Price" onPress={() => sortProducts('price')} />
       </View>
-      {/* {console.log(sortedProducts?.products)} */}
       <FlatList
         data={sortedProducts}
         renderItem={renderItem}
@@ -79,6 +84,7 @@ const styles = StyleSheet.create({
     // marginBottom: 10,
   },
   productItem: {
+    flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     paddingVertical: 10,
